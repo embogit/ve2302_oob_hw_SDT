@@ -21,6 +21,8 @@
 
 # NOTE: Do not use spaces or punctuation for any the paths or names!
 
+SHELL = bash
+
 ##############################################
 # You will likely want to change per project #
 ##############################################
