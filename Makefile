@@ -34,6 +34,7 @@ DESIGN_NAME ?= ve2302_oob
 VB_NUM_THREADS ?= 8
 HELP_COLOR ?= 10
 BITSTREAM_XSA_DIR ?= .
+SDT_DIR ?= ./sdt
 
 # This should contain the relative path and file name, or set to null if no platform properties
 # It should point to tcl file containing metadata settings for the Vitis Extensible Platform
@@ -93,13 +94,13 @@ WHO_MADE_WHO := $(shell test $(PROJ_DIR)/$(DESIGN_NAME).xpr -nt $(DESIGN_NAME).t
 VIVADO_TOOLS := $(shell which vivado)
 
 # Targets
-all: check_tools git_bdf chicken_egg build_bitstream_xsa
+all: check_tools git_bdf chicken_egg build_bitstream_xsa sdt_export
 	@echo;\
 	tput setaf 2 ; echo "Built $(DESIGN_NAME) successfully!"; tput sgr0;\
 	echo
 
 .PHONY: git_bdf create_project update_xsa build_bitstream_xsa extract_block_design \
-	clean realclean clean_logs timing_check write_pdi integrate_tcl help
+	clean realclean clean_logs timing_check write_pdi integrate_tcl help sdt_export
 
 git_bdf: | $(BDF_DIR)
 
@@ -144,6 +145,9 @@ timing_check: | $(VIVADO_LOGS_DIR) $(BUILD_DIR) $(BITSTREAM_XSA_DIR)/$(DESIGN_NA
 vitis_xsa_export: | $(VIVADO_LOGS_DIR) $(BUILD_DIR)/$(DESIGN_NAME).xpr
 	$(VS) $(TCL_DIR)/export_vitis_xsa.tcl -tclargs $(BUILD_DIR) $(DESIGN_NAME) $(BITSTREAM_XSA_DIR)/$(VITIS_XSA_FILE)
 
+sdt_export: | $(VIVADO_LOGS_DIR) $(BUILD_DIR) $(BITSTREAM_XSA_DIR)/$(DESIGN_NAME).xsa
+	sdtgen -xsa $(BITSTREAM_XSA_DIR)/$(DESIGN_NAME).xsa -dir $(SDT_DIR)
+
 $(BITSTREAM_XSA_DIR)/$(DESIGN_NAME).bit: $(BUILD_DIR)/$(DESIGN_NAME).xpr | $(VIVADO_LOGS_DIR) $(BITSTREAM_XSA_DIR)
 	$(VS) $(TCL_DIR)/write_bit.tcl -tclargs $(BUILD_DIR) $(DESIGN_NAME) $(VB_NUM_THREADS) $(BITSTREAM_XSA_DIR)
 
@@ -182,12 +186,15 @@ $(BUILD_DIR):
 $(BITSTREAM_XSA_DIR):
 	mkdir $(BITSTREAM_XSA_DIR)
 
+$(SDT_DIR):
+	mkdir $(SDT_DIR)
+
 clean_logs:
 	rm -rf $(VIVADO_LOGS_DIR)
 
 clean:
 	$(MAKE) -s clean_logs
-	rm -rf $(BUILD_DIR) .Xil $(PDI_DIR)
+	rm -rf $(BUILD_DIR) .Xil $(PDI_DIR) $(SDT_DIR)
 	rm -f $(TMP_TCL_FILE) $(BITSTREAM_XSA_DIR)/$(DESIGN_NAME).bit $(BITSTREAM_XSA_DIR)/$(DESIGN_NAME).xsa wdi_info.xml $(BITSTREAM_XSA_DIR)/$(VITIS_XSA_FILE)
 
 realclean:
