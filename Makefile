@@ -26,7 +26,7 @@ SHELL = bash
 ##############################################
 # You will likely want to change per project #
 ##############################################
-DESIGN_NAME ?= ve2302_oob_2025.2
+DESIGN_NAME ?= ve2302_oob_2025_2
 
 ####################################################
 # You might want to change these but usually won't #

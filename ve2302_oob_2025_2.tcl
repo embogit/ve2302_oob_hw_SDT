@@ -4,7 +4,7 @@
 set_param board.repoPaths bdf_local
 
 ################################################################
-# This is a generated script based on design: ve2302_oob
+# This is a generated script based on design: ve2302_oob_2025_2
 #
 # Though there are limitations about the generated script,
 # the main purpose of this utility is to make learning
@@ -45,7 +45,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 ################################################################
 
 # To test this script, run the following commands from Vivado Tcl console:
-# source ve2302_oob_script.tcl
+# source ve2302_oob_2025_2_script.tcl
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
@@ -53,7 +53,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project ve2302_oob vivado_prj -part xcve2302-sfva784-1LP-e-S
+   create_project ve2302_oob_2025_2 vivado_prj -part xcve2302-sfva784-1LP-e-S
    set_property BOARD_PART avnet-tria:ve2302_io_dk_som:part0:1.0 [current_project]
   set_property BOARD_CONNECTIONS { jx1_connector avnet-tria:ve2302_io_dk_carrier:jx1_connector:1.0 jx2_connector avnet-tria:ve2302_io_dk_carrier:jx2_connector:1.0 jx3_connector avnet-tria:ve2302_io_dk_carrier:jx3_connector:1.0} [current_project]
 }
@@ -61,7 +61,7 @@ if { $list_projs eq "" } {
 
 # CHANGE DESIGN NAME HERE
 variable design_name
-set design_name ve2302_oob
+set design_name ve2302_oob_2025_2
 
 # If you do not already have an existing IP Integrator design open,
 # you can create a design using the following command:
