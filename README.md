@@ -1,7 +1,8 @@
 # ve2302_oob_hw
-Vivado HW Repository for the Out of Box Design for the VE2302 SOM / Development Kit
 
-First install and setup Vitis/Vivado v2025.2 on a supported Linux distro.
-Refer to the AMD Documentation for more details.
+This is a fork from original Avnet/Tria HW repository, you probably want to run this from the Petalinux or EDF repository. 
 
-Then enter 'make' to build the Versal SoC XSA
+This fork has following changes (today)
+* Support for 2026.1 version for OOB basic Linux design
+* Creates SDT artifacts for more modern flows (Petalinux SDT and EDF)
+* New extendable platform design for 2026.1 to enable AIE + PL accelerator designs (this is under development)
