@@ -4,7 +4,7 @@
 set_param board.repoPaths bdf_local
 
 ################################################################
-# This is a generated script based on design: ve2302_oob_2026_1
+# This is a generated script based on design: ve2302_platform_2026_1
 #
 # Though there are limitations about the generated script,
 # the main purpose of this utility is to make learning
@@ -1714,8 +1714,8 @@ proc create_root_design { parentCell } {
   ] $axi_interal_smc
 
 
-  # Create instance: rst_versal_cips_0_99M, and set properties
-  set rst_versal_cips_0_99M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_versal_cips_0_99M ]
+  # Create instance: rst_250M, and set properties
+  set rst_250M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_250M ]
 
   # Create instance: ilslice_0, and set properties
   set ilslice_0 [ create_bd_cell -type inline_hdl -vlnv xilinx.com:inline_hdl:ilslice:1.0 ilslice_0 ]
@@ -1737,8 +1737,8 @@ proc create_root_design { parentCell } {
   # Create instance: clk_wizard_0, and set properties
   set clk_wizard_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wizard:1.0 clk_wizard_0 ]
   set_property -dict [list \
-    CONFIG.CLKOUT_REQUESTED_OUT_FREQUENCY {156.250,100.000,100.000,100.000,100.000,100.000,100.000} \
-    CONFIG.CLKOUT_USED {true,true,false,false,false,false,false} \
+    CONFIG.CLKOUT_REQUESTED_OUT_FREQUENCY {250,500,125,62.5,333,100.000,100.000} \
+    CONFIG.CLKOUT_USED {true,true,true,true,true,false,false} \
     CONFIG.JITTER_SEL {Min_O_Jitter} \
     CONFIG.RESET_TYPE {ACTIVE_LOW} \
     CONFIG.USE_LOCKED {true} \
@@ -1758,6 +1758,18 @@ proc create_root_design { parentCell } {
   set_property -dict [ list \
    CONFIG.CATEGORY {NOC} \
  ] [get_bd_intf_pins $ai_engine_0/S00_AXI]
+
+  # Create instance: rst_333, and set properties
+  set rst_333 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_333 ]
+
+  # Create instance: rst_125M, and set properties
+  set rst_125M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_125M ]
+
+  # Create instance: rst_500M, and set properties
+  set rst_500M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_500M ]
+
+  # Create instance: rst_62M, and set properties
+  set rst_62M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_62M ]
 
   # Create interface connections
   connect_bd_intf_net -intf_net axi_gpio_0_GPIO [get_bd_intf_ports jx2_connector_xpio_dp] [get_bd_intf_pins axi_gpio_0/GPIO]
@@ -1789,7 +1801,7 @@ proc create_root_design { parentCell } {
   connect_bd_net -net axi_intc_0_irq  [get_bd_pins axi_intc_0/irq] \
   [get_bd_pins versal_cips_0/pl_ps_irq0]
   connect_bd_net -net clk_wizard_0_clk_out1  [get_bd_pins clk_wizard_0/clk_out1] \
-  [get_bd_pins rst_versal_cips_0_99M/slowest_sync_clk] \
+  [get_bd_pins rst_250M/slowest_sync_clk] \
   [get_bd_pins versal_cips_0/m_axi_fpd_aclk] \
   [get_bd_pins axi_interal_smc/aclk] \
   [get_bd_pins axi_gpio_0/s_axi_aclk] \
@@ -1798,11 +1810,23 @@ proc create_root_design { parentCell } {
   [get_bd_pins axi_gpio_2/s_axi_aclk] \
   [get_bd_pins axi_noc_0/aclk0] \
   [get_bd_pins axi_intc_0/s_axi_aclk]
+  connect_bd_net -net clk_wizard_0_clk_out2  [get_bd_pins clk_wizard_0/clk_out2] \
+  [get_bd_pins rst_500M/slowest_sync_clk]
+  connect_bd_net -net clk_wizard_0_clk_out3  [get_bd_pins clk_wizard_0/clk_out3] \
+  [get_bd_pins rst_125M/slowest_sync_clk]
+  connect_bd_net -net clk_wizard_0_clk_out4  [get_bd_pins clk_wizard_0/clk_out4] \
+  [get_bd_pins rst_62M/slowest_sync_clk]
+  connect_bd_net -net clk_wizard_0_clk_out5  [get_bd_pins clk_wizard_0/clk_out5] \
+  [get_bd_pins rst_333/slowest_sync_clk]
   connect_bd_net -net clk_wizard_0_locked  [get_bd_pins clk_wizard_0/locked] \
-  [get_bd_pins rst_versal_cips_0_99M/dcm_locked]
+  [get_bd_pins rst_250M/dcm_locked] \
+  [get_bd_pins rst_333/dcm_locked] \
+  [get_bd_pins rst_500M/dcm_locked] \
+  [get_bd_pins rst_125M/dcm_locked] \
+  [get_bd_pins rst_62M/dcm_locked]
   connect_bd_net -net ilslice_0_Dout  [get_bd_pins ilslice_0/Dout] \
   [get_bd_ports fan_pwm_out]
-  connect_bd_net -net rst_versal_cips_0_99M_peripheral_aresetn  [get_bd_pins rst_versal_cips_0_99M/peripheral_aresetn] \
+  connect_bd_net -net rst_versal_cips_0_99M_peripheral_aresetn  [get_bd_pins rst_250M/peripheral_aresetn] \
   [get_bd_pins axi_gpio_0/s_axi_aresetn] \
   [get_bd_pins axi_interal_smc/aresetn] \
   [get_bd_pins axi_gpio_1/s_axi_aresetn] \
@@ -1827,7 +1851,11 @@ proc create_root_design { parentCell } {
   [get_bd_pins clk_wizard_0/clk_in1]
   connect_bd_net -net versal_cips_0_pl0_resetn  [get_bd_pins versal_cips_0/pl0_resetn] \
   [get_bd_pins clk_wizard_0/resetn] \
-  [get_bd_pins rst_versal_cips_0_99M/ext_reset_in]
+  [get_bd_pins rst_250M/ext_reset_in] \
+  [get_bd_pins rst_333/ext_reset_in] \
+  [get_bd_pins rst_500M/ext_reset_in] \
+  [get_bd_pins rst_125M/ext_reset_in] \
+  [get_bd_pins rst_62M/ext_reset_in]
   connect_bd_net -net versal_cips_0_pmc_axi_noc_axi0_clk  [get_bd_pins versal_cips_0/pmc_axi_noc_axi0_clk] \
   [get_bd_pins axi_noc_0/aclk9]
   connect_bd_net -net versal_cips_0_ttc0_waveo  [get_bd_pins versal_cips_0/ttc0_waveo] \
@@ -1866,10 +1894,11 @@ proc create_root_design { parentCell } {
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
+  set_property platform.extensible true [current_project]
   set_property PFM_NAME {vendor:board:ve2302_oob_platform:1.0} [get_files [current_bd_design].bd]
   set_property PFM.AXI_PORT {S08_AXI {memport "S_AXI_NOC" sptag "DDR" memory "" is_range "true"} S09_AXI {memport "S_AXI_NOC" sptag "DDR" memory "" is_range "true"} S10_AXI {memport "S_AXI_NOC" sptag "DDR" memory "" is_range "true"} S11_AXI {memport "S_AXI_NOC" sptag "DDR" memory "" is_range "true"} S12_AXI {memport "S_AXI_NOC" sptag "DDR" memory "" is_range "true"}} [get_bd_cells /axi_noc_0]
   set_property PFM.AXI_PORT {M05_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M06_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M07_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M08_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M09_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M10_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M11_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M12_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M13_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M14_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"} M15_AXI {memport "M_AXI_GP" sptag "" memory "" is_range "true"}} [get_bd_cells /axi_interal_smc]
-  set_property PFM.CLOCK {clk_out1 {id "0" is_default "true" proc_sys_reset "/rst_versal_cips_0_99M" status "fixed" freq_hz "156248437"}} [get_bd_cells /clk_wizard_0]
+  set_property PFM.CLOCK {clk_out1 {id "0" is_default "true" proc_sys_reset "/rst_250M" status "fixed" freq_hz "249997499"} clk_out2 {id "1" is_default "false" proc_sys_reset "/rst_500M" status "fixed" freq_hz "499994999"} clk_out3 {id "2" is_default "false" proc_sys_reset "/rst_125M" status "fixed" freq_hz "124998749"} clk_out4 {id "3" is_default "false" proc_sys_reset "/rst_62M" status "fixed" freq_hz "62499374"} clk_out5 {id "4" is_default "false" proc_sys_reset "/rst_333" status "fixed" freq_hz "333330000"}} [get_bd_cells /clk_wizard_0]
   set_property PFM.IRQ {intr { id 0 range 32 }} [get_bd_cells /axi_intc_0]
 
 
